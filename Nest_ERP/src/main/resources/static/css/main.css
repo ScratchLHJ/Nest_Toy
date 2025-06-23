@@ -1,0 +1,37 @@
+/* main.css - 스코프 기반 */
+
+.main-page h2 {
+    font-size: 1.75rem;
+    font-weight: 600;
+    color: #212529;
+    margin-bottom: 1.5rem;
+}
+
+.main-page .small-box {
+    border-radius: 0.5rem;
+    box-shadow: 0 0 6px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s;
+}
+
+.main-page .small-box:hover {
+    transform: translateY(-2px);
+}
+
+.main-page .small-box .inner h3 {
+    font-size: 2rem;
+    font-weight: 700;
+}
+
+.main-page .small-box-footer {
+    font-size: 0.85rem;
+    color: #fff;
+    background-color: rgba(0,0,0,0.1);
+    display: block;
+    text-align: center;
+    padding: 6px 0;
+    text-decoration: none;
+}
+
+.main-page .small-box-footer:hover {
+    background-color: rgba(0,0,0,0.2);
+}

@@ -1,0 +1,40 @@
+/*
+!* header.css - AdminLTE header 기반 커스터마이징 *!
+*/
+/* 헤더 로고 영역 */
+.header-brand-link {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0 12px;
+    background: none;
+    height: 50px;
+    text-decoration: none;
+}
+
+.header-brand-link .header-brand-image {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+}
+
+.header-brand-link .header-brand-text {
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: #343a40;
+    display: inline !important; /* sidebar 최소화 시에도 유지 */
+}
+
+/* 사용자 프로필 (오른쪽 상단) */
+header .navbar-nav .nav-item.dropdown .nav-link {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+header .navbar-nav .nav-item.dropdown img {
+    border-radius: 50%;
+    width: 28px;
+    height: 28px;
+}
+

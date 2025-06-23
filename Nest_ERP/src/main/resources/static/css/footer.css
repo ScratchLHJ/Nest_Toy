@@ -1,0 +1,26 @@
+/* footer.css */
+
+/* 기본 푸터 구조 */
+.main-footer {
+    background-color: #f4f6f9;
+    border-top: 1px solid #dee2e6;
+    color: #6c757d;
+    font-size: 0.875rem;
+    padding: 15px 20px;
+}
+
+/* 링크 강조 */
+.main-footer a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.main-footer a:hover {
+    text-decoration: underline;
+}
+
+/* 오른쪽 버전 정보 정렬 */
+.main-footer .float-right {
+    font-weight: 500;
+    color: #495057;
+}

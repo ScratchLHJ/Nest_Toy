@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title th:text="${title}">NEST 관리자 시스템</title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" th:href="@{/dist/css/adminlte.min.css}" />
+  <link rel="stylesheet" th:href="@{/css/layout.css}" />
+  <link rel="stylesheet" th:href="@{/css/header.css}" />
+  <link rel="stylesheet" th:href="@{/css/sidebar.css}" />
+  <link rel="stylesheet" th:href="@{/css/footer.css}" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700">
+
+  <!-- ✅ 렌더링 전에 body 클래스 동적 설정 (깜빡임 방지 핵심) -->
+  <script>
+    (function () {
+      const state = localStorage.getItem("sidebarState");
+      const sidebarClass = state === "collapsed"
+              ? 'hold-transition layout-fixed sidebar-mini sidebar-collapse'
+              : 'hold-transition layout-fixed sidebar-mini';
+      document.write('<body class="' + sidebarClass + '">');
+    })();
+  </script>
+
+  <!-- fullcalendar -->
+  <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.css" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js"></script>
+  <link rel="stylesheet" th:href="@{/css/calendar.css}">
+</head>
+
+<!-- ✅ 기존 body 태그는 제거됨. document.write가 대신 렌더링함 -->
+
+<div class="wrapper">
+
+  <!-- 상단 고정 헤더 -->
+  <header class="main-header" th:replace="~{fragments/header :: header}"></header>
+
+  <!-- 좌우 레이아웃 -->
+  <div class="page-layout d-flex">
+
+    <!-- 왼쪽 사이드바 -->
+    <aside th:replace="~{fragments/sidebar :: sidebar}"></aside>
+
+    <!-- 오른쪽 콘텐츠 영역 -->
+    <main class="content-wrapper flex-grow-1">
+      <section class="content-header">
+        <div class="container-fluid">
+          <div class="row mb-2">
+            <div class="col-sm-6">
+              <h1 th:text="${title}">페이지 제목</h1>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="content">
+        <div class="container-fluid">
+          <!-- ✅ 여기서 contentFragment null-safe 처리 -->
+          <div th:if="${contentFragment != null}" th:replace="~{${contentFragment} :: content}"></div>
+          <div th:if="${contentFragment == null}">
+            <p style="color: red;">⚠️ contentFragment가 null 또는 비어 있습니다.</p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+  </div>
+
+  <!-- 하단 푸터 -->
+  <footer th:replace="fragments/footer :: footer"></footer>
+</div>
+
+<!-- 스크립트 -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+<script th:src="@{/dist/js/adminlte.min.js}"></script>
+
+<!-- ✅ 사이드바 토글 + 상태 저장 + 아이콘 동기화 -->
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const toggleBtn = document.getElementById("sidebarToggleBtn");
+    const body = document.body;
+
+    function updateIcon() {
+      if (body.classList.contains("sidebar-collapse")) {
+        toggleBtn.innerHTML = '<i class="fas fa-chevron-right"></i>';
+      } else {
+        toggleBtn.innerHTML = '<i class="fas fa-chevron-left"></i>';
+      }
+    }
+
+    function saveSidebarState() {
+      const state = body.classList.contains("sidebar-collapse") ? "collapsed" : "expanded";
+      localStorage.setItem("sidebarState", state);
+    }
+
+    if (toggleBtn) {
+      toggleBtn.addEventListener("click", function () {
+        body.classList.toggle("sidebar-collapse");
+        updateIcon();
+        saveSidebarState();
+      });
+      updateIcon();
+    }
+  });
+
+  document.addEventListener("DOMContentLoaded", function () {
+    // ✅ 현재 페이지 URL path 추출
+    const currentPath = window.location.pathname;
+
+    // ✅ sidebar nav 링크들에 대해 검사
+    document.querySelectorAll('.nav-sidebar .nav-link').forEach(link => {
+      const href = link.getAttribute('href') || link.getAttribute('th:href');
+      if (href && currentPath.startsWith(href)) {
+        link.classList.add('active');
+      }
+    });
+  });
+
+  // 날짜시간 실시간 표시
+  function updateDateTime() {
+    const now = new Date();
+    const formatted = now.toISOString().slice(0, 19).replace('T', ' ');
+    document.getElementById('currentDateTime').textContent = formatted;
+  }
+  setInterval(updateDateTime, 1000);
+  updateDateTime();
+
+</script>
+
+</body>
+</html>
